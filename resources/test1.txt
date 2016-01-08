@@ -1,0 +1,27 @@
+
+http://www.i-programmer.info/programming/theory/8864-managing-asynchronous-code-callbacks-promises-a-asyncawait.html
+What Is Asynchronous Programming?
+Written by Mike James	  
+Friday, 28 June 2013
+Article Index
+What Is Asynchronous Programming?
+Non-blocking calls
+Page 1 of 2
+Asynchronous programming has become very important in the last few years, but many programmers find out about it by doing it. So what exactly is asynchronous programming, why is it necessary and why is it growing in importance?
+This is the first of two articles on asynchronous programming:
+What Is Asynchronous Programming?
+
+Managing Asynchronous Code - Callbacks, Promises & Async/Await
+Before getting started, this is a down to earth introduction to asynchronous programming and not a mathematical analysis. It is possible to make the whole subject seem so complicated that it is a miracle that we make use of it at all. 
+Asynchronous programming has been with us from the very early days of computing because of the need to make the best use of the hardware. But recently it has become almost the standard programming paradigm. So much so that you could say that most programs written today are object oriented asynchronous programs.
+Often the programmer is fully aware that what they are doing is object oriented but only vaguely aware that they are writing asynchronous code. 
+It all starts with the User Interface (UI). If you allow the user to interact with your program by clicking buttons and selecting object then you have an immediate problem
+What is your program doing when the user isn't clicking or selecting something?
+The obvious answer is nothing at all. Your program has to wait until the user gives it something to do. This is the case whenever your program interacts with the user even if it is simply waiting at the command line for the user to type something in. 
+You can implement this sort of system using polling. That is your program can go around the UI asking the question "has this button been clicked" and "has this button been clicked" and so on. This ties up resources looping around the UI just checking in case something has happened. 
+This isn't how most UI frameworks organize things. Instead they implement an event handling system. The user clicking a button is defined as an event and you can associate code with each event - the event handler. When the event occurs the event handler is run. 
+This is such a familiar pattern that we hardy give it a second thought but you should. For example, suppose there are three buttons on the screen and the user clicks on all three at high speed - do three different event handlers get started? 
+In most cases the answer is no only one even handler is started at a time. The most common event handling architecture is single threaded - that is it only has one thread of execution and at any one time only one instruction in your entire program is being obeyed. 
+This single threaded event handling system is nearly always implemented using an event or message queue.
+The idea is that while your program is doing nothing its thread looks after the event queue. When an event happens a record of the event is added to the queue and when your program's thread isn't doing anything it looks at the event queue and takes the first event from the front and starts running the corresponding event handler. When that event handler completes the thread goes back to the event queue to process any events that might have happened in while it was busy. 
+So events are added to the event queue and the UI framework provides a dispatcher that runs on your thread and calls the event handlers as needed. At any moment the program's thread is either in the dispatcher finding out what event it has to process next or in an event handler. Of course if there is no event to process the thread just idles waiting for an event to be added to the queue.
